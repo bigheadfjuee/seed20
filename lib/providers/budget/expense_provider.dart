@@ -13,11 +13,14 @@ class ExpenseList extends _$ExpenseList {
     return [];
   }
 
+  int _mockIdCounter = 1;
+
   void addExpense(ExpenseCategory category, double amount) {
     final currentMonth = ref.read(budgetStateProvider);
     if (currentMonth == null) return;
 
     final newExpense = Expense()
+      ..id = _mockIdCounter++ // Mock ID for testing
       ..category = category
       ..amount = amount
       ..date = DateTime.now()
@@ -27,6 +30,23 @@ class ExpenseList extends _$ExpenseList {
 
     // Update State
     state = [...state, newExpense];
+  }
+
+  void updateExpense(Expense updatedExpense) {
+    // TODO: Update in Database via Repository
+    
+    // Update State
+    state = [
+      for (final expense in state)
+        if (expense.id == updatedExpense.id) updatedExpense else expense,
+    ];
+  }
+
+  void deleteExpense(Expense targetExpense) {
+    // TODO: Delete from Database via Repository
+    
+    // Update State
+    state = state.where((e) => e.id != targetExpense.id).toList();
   }
 }
 

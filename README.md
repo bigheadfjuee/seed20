@@ -1,4 +1,4 @@
-# expense_app
+# seed20
 
 A new Flutter project.
 
